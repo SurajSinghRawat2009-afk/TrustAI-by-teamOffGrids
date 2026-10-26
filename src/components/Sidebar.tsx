@@ -1,4 +1,4 @@
-import { X, Home, History, GraduationCap, Info, ShieldCheck, MessageSquare, Phone } from 'lucide-react';
+import { X, Home, History, GraduationCap, Info, MessageSquare, Phone } from 'lucide-react';
 import type { LanguageCode } from '@/lib/types';
 import { t } from '@/lib/i18n';
 
@@ -33,9 +33,7 @@ export default function Sidebar({
       >
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] text-white shadow-lg">
-              <ShieldCheck className="h-5 w-5" strokeWidth={2.5} />
-            </span>
+            <img src="/icon-192.png" alt="TrustAI" className="h-9 w-9 rounded-xl object-cover shadow-lg" />
             <span className="text-lg font-bold">TrustAI</span>
           </div>
           <button onClick={onClose} className="btn-ghost flex h-9 w-9 items-center justify-center rounded-lg">

@@ -81,6 +81,7 @@ function TrustScoreRing({ score }: { score: number }) {
 }
 
 const API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trustai-verify`;
+const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export default function VerificationEngine({
   user,
@@ -106,7 +107,11 @@ export default function VerificationEngine({
     try {
       const res = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${API_KEY}`,
+          Apikey: API_KEY,
+        },
         body: JSON.stringify({ content: trimmed }),
       });
       const data = await res.json();

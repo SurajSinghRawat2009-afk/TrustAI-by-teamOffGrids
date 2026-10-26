@@ -5,6 +5,7 @@ import type { QuizQuestion } from '@/lib/types';
 
 const LEVEL_SIZE = 5;
 const API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trustai-quiz`;
+const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 function CircularProgress({ percentage }: { percentage: number }) {
   const [pct, setPct] = useState(0);
@@ -64,7 +65,13 @@ export default function QuizEngine({ onBack }: { onBack: () => void }) {
     setError(null);
     setQuestions([]);
     try {
-      const res = await fetch(API_URL, { method: 'POST' });
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          Apikey: API_KEY,
+        },
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Failed to load quiz.');
       if (!Array.isArray(data.questions) || data.questions.length < LEVEL_SIZE) {

@@ -1,4 +1,4 @@
-import { Menu, ShieldCheck } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
 import PalettePicker from './PalettePicker';
@@ -34,9 +34,7 @@ export default function Navbar({
           <Menu size={20} />
         </button>
         <button onClick={onLogoClick} className="flex items-center gap-2 font-bold text-app">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] text-white shadow-lg">
-            <ShieldCheck className="h-5 w-5" strokeWidth={2.5} />
-          </span>
+          <img src="/icon-192.png" alt="TrustAI" className="h-9 w-9 rounded-xl object-cover shadow-lg" />
           <span className="text-lg tracking-tight">TrustAI</span>
         </button>
         <div className="flex items-center gap-2">
