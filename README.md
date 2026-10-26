@@ -4,8 +4,10 @@ A misinformation tracker demo built with Next.js, React, and Tailwind CSS.
 
 TrustAI helps users spot suspicious messages by flagging common misinformation patterns and pointing to credible fact-checking sources. It includes:
 
-- **Checker** — Paste a forwarded message or link and get a verdict (Supported / Contradicted / Unverified) with a list of warning signs, credible sources, and next steps to verify before sharing.
-- **Learn** — A 3-question quiz that teaches you to recognize red flags like urgency language, phishing attempts, and conspiratorial framing.
+- **Pause** — Wait ✋️, Before clicking on any suspicious link or forwarding a message,stop. Take a moment to copy the link and Analyze it using TrustAI instead of reacting immediately.
+- **Check** — Paste a forwarded message or link and get a verdict (Supported / Contradicted / Unverified) with a list of warning signs, credible sources, and next steps to verify before sharing.
+- **Verify** — TrustAI automatically cross-references the content and provides trusted external resources, like cybersecurity links and fact-checking databases, so you can confidently confirm the facts.
+- **Learn** — A  3-level quiz consisting of 5-question each directly derived from ai that teaches you to recognize red flags like urgency language, phishing attempts, and conspiratorial framing.
 
 ## Tech stack
 
@@ -60,3 +62,8 @@ npm start
 
 
 **This is a hackathon demo. The claim analysis uses keyword-based heuristics and mock data — it is not a real fact-checking engine. Always verify claims with official sources.**
+
+- *Made by Suraj Singh Rawat*
+- *School of Management Science,Lucknow* 
+- *BCA 1st Year-'B'*
+- *PURPOSE — RotaTech HACKATHON-2026*
