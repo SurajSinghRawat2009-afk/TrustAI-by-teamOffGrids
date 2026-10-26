@@ -58,7 +58,7 @@ Rules:
 - If uncertain => Unverified, medium trust.
 - Provide 2-4 credible sources with real URLs (fact-checkers, official gov, or major outlets).
 - "tactics" must list concrete manipulation tactics observed.
-Strict language rule: You must analyze the input and generate your entire response ONLY in ${langName}, regardless of the language the user typed in. Keep the JSON keys exactly as specified, but write every human-readable JSON value in ${langName}.`;
+The user has selected ${langName} as their interface language. Regardless of what language the user types their prompt in, you MUST generate your entire response exclusively in ${langName}. Keep the JSON keys exactly as specified, but write every human-readable JSON value in ${langName}.`;
 }
 
 async function callGemini(prompt: string, apiKey: string): Promise<string> {

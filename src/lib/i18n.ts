@@ -764,8 +764,21 @@ const FEATURE_STRINGS: Record<LanguageCode, Dict> = {
   pt: { back: 'Voltar', analyzeEngine: 'Motor de Verificação', analyzeTitle: 'Analisar conteúdo e links', analyzeSub: 'Cole uma mensagem, e-mail ou URL suspeito. O TrustAI verificará e explicará o resultado.', messageUrl: 'Mensagem ou URL', pastePlaceholder: 'Cole aqui uma mensagem do WhatsApp, e-mail suspeito ou link…', chars: 'caracteres', clear: 'Limpar', analyzing: 'Analisando…', analyze: 'Analisar', trust: 'Confiança', sourceReliability: 'Confiabilidade da fonte', contentConsistency: 'Consistência do conteúdo', risk: 'Risco', analyzed: 'Analisado', verdictLegend: 'Legenda dos veredictos', originalClaim: 'Afirmação original', senderInfo: 'Informações do remetente', tacticsUsed: 'Táticas usadas', noneDetected: 'Nenhuma detectada.', sourceReferences: 'Referências', noSources: 'Nenhuma fonte retornada.', detailedExplanation: 'Explicação detalhada da IA', downloadSummary: 'Baixar cartão-resumo', trustVerdict: 'Veredicto TrustAI', analysisReport: 'Relatório de análise', forUser: 'Para', score: 'Pontuação', quizPreparing: 'Preparando seu treinamento…', quizGenerating: 'O TrustAI está gerando 15 novas perguntas.', quizLoadError: 'Não foi possível carregar o quiz', retry: 'Tentar novamente', congratulations: 'Parabéns!', freshChallenge: 'Você completou todos os níveis. Pronto para um novo desafio?', generateMore: 'Gerar mais perguntas', levelComplete: 'Nível concluído', howDid: 'Veja como você foi', brilliant: 'Brilhante! Você é um mestre da cibersegurança!', great: 'Ótimo trabalho! Seus instintos são afiados.', nice: 'Bom trabalho — algumas perguntas difíceis pegaram você.', keepPracticing: 'Continue praticando! Golpistas são astutos.', correct: 'Correto!', notQuite: 'Não exatamente', nextQuestion: 'Próxima pergunta', seeResults: 'Ver resultados', questionUnavailable: 'Pergunta indisponível.', restart: 'Reiniciar', levelScore: 'Pontuação do nível', biggestWarning: 'Qual é o maior sinal de alerta?', sampleMessage: 'Mensagem de exemplo', chatNoActive: 'Nenhuma sessão ativa', chatSessionList: 'Lista de sessões', chatNewSession: 'Nova sessão', chatStart: 'Inicie uma nova conversa.', chatTyping: 'TrustAI está digitando…', chatAsk: 'Pergunte qualquer coisa', chatSend: 'Enviar', chatExpand: 'Expandir chat', chatCollapse: 'Recolher chat', footer: 'Team OffGrids', verdict: 'Veredicto', trustScore: 'Pontuação de confiança', aiOnly: 'Você deve analisar a entrada e gerar toda a sua resposta SOMENTE em português, independentemente do idioma usado pelo usuário.' },
 };
 
+const FALLBACK_FEATURE_STRINGS: Record<LanguageCode, Dict> = {
+  en: { finish: 'Finish', correctCount: 'correct', level: 'Level', question: 'Question', error: 'Error' },
+  hi: { finish: 'समाप्त', correctCount: 'सही', level: 'स्तर', question: 'प्रश्न', error: 'त्रुटि' },
+  es: { finish: 'Finalizar', correctCount: 'correctas', level: 'Nivel', question: 'Pregunta' },
+  fr: { finish: 'Terminer', correctCount: 'correctes', level: 'Niveau', question: 'Question' },
+  zh: { finish: '完成', correctCount: '正确', level: '级别', question: '问题' },
+  ja: { finish: '完了', correctCount: '正解', level: 'レベル', question: '問題' },
+  ar: { finish: 'إنهاء', correctCount: 'صحيح', level: 'المستوى', question: 'السؤال' },
+  ur: { finish: 'مکمل', correctCount: 'درست', level: 'لیول', question: 'سوال' },
+  bn: { finish: 'শেষ করুন', correctCount: 'সঠিক', level: 'স্তর', question: 'প্রশ্ন' },
+  pt: { finish: 'Concluir', correctCount: 'corretas', level: 'Nível', question: 'Pergunta' },
+};
+
 export function t(lang: LanguageCode, key: string): string {
-  return FEATURE_STRINGS[lang]?.[key] ?? UI_STRINGS[lang]?.[key] ?? UI_STRINGS.en[key] ?? key;
+  return FEATURE_STRINGS[lang]?.[key] ?? FALLBACK_FEATURE_STRINGS[lang]?.[key] ?? UI_STRINGS[lang]?.[key] ?? UI_STRINGS.en[key] ?? key;
 }
 
 export const LANGUAGE_NAMES_FOR_AI: Record<LanguageCode, string> = {

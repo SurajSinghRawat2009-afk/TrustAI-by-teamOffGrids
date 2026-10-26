@@ -8,7 +8,7 @@ const LEVEL_SIZE = 5;
 const API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trustai-quiz`;
 const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-function CircularProgress({ percentage }: { percentage: number }) {
+function CircularProgress({ percentage, lang }: { percentage: number; lang: LanguageCode }) {
   const [pct, setPct] = useState(0);
   useEffect(() => {
     const t = setTimeout(() => setPct(percentage), 120);
@@ -180,14 +180,14 @@ export default function QuizEngine({ lang, onBack }: { lang: LanguageCode; onBac
     const pct = Math.round((correctCount / LEVEL_SIZE) * 100);
     return (
       <div className="mx-auto max-w-xl px-4 py-16 text-center animate-fade-up">
-        <p className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">Level {level} · {t(lang, 'levelComplete')}</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">{t(lang, 'level')} {level} · {t(lang, 'levelComplete')}</p>
         <h2 className="mt-1 text-2xl font-black text-app">{t(lang, 'howDid')}</h2>
         <div className="mt-8 flex justify-center">
-          <CircularProgress percentage={pct} />
+          <CircularProgress percentage={pct} lang={lang} />
         </div>
         <p className="mt-6 text-base font-medium text-app">{scoreMessage(pct, lang)}</p>
         <p className="mt-1 text-sm text-muted">
-          {correctCount} / {LEVEL_SIZE} correct
+          {correctCount} / {LEVEL_SIZE} {t(lang, 'correctCount')}
         </p>
         <button onClick={handleNextLevel} className="btn-primary mt-8 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold">
           {level < 3 ? `${t(lang, 'nextQuestion')} ${level + 1}` : t(lang, 'finish')} <ArrowRight size={16} />
@@ -218,7 +218,7 @@ export default function QuizEngine({ lang, onBack }: { lang: LanguageCode; onBac
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <p className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
-            Level {level} · Question {qIndex + 1} of {LEVEL_SIZE}
+            {t(lang, 'level')} {level} · {t(lang, 'question')} {qIndex + 1} / {LEVEL_SIZE}
           </p>
           <p className="text-xs text-muted">{t(lang, 'levelScore')}: {correctCount}</p>
         </div>

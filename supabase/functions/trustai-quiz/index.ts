@@ -90,7 +90,7 @@ Rules:
 - Each question must have exactly 3 or 4 choices.
 - correctIndex must be a valid 0-based index.
 - Make them varied, realistic, and freshly worded. Avoid repetition.
-Strict language rule: You must analyze the task and generate every human-readable question, choice, explanation, and topic ONLY in ${langName}, regardless of the language used in this instruction. Keep the JSON keys and correctIndex numeric values unchanged.`;
+The user has selected ${langName} as their interface language. Regardless of what language the user types their prompt in, you MUST generate your entire response exclusively in ${langName}. Keep the JSON keys and correctIndex numeric values unchanged.`;
 
     const text = await callGemini(prompt, apiKey);
     const raw = safeParseArray(text);

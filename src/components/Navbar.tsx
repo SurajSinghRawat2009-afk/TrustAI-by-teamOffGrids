@@ -3,6 +3,7 @@ import ThemeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
 import PalettePicker from './PalettePicker';
 import type { LanguageCode, PaletteColor, Theme } from '@/lib/types';
+import { t } from '@/lib/i18n';
 
 export default function Navbar({
   theme,
@@ -28,7 +29,7 @@ export default function Navbar({
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6">
         <button
           onClick={onMenuClick}
-          aria-label="Open menu"
+          aria-label={t(language, 'openMenu')}
           className="btn-ghost flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
         >
           <Menu size={20} />
@@ -40,7 +41,7 @@ export default function Navbar({
         <div className="flex items-center gap-2">
           <LanguageSelector language={language} onChange={onLanguageChange} />
           <PalettePicker color={palette} onChange={onPaletteChange} />
-          <ThemeToggle theme={theme} onChange={onThemeChange} />
+          <ThemeToggle theme={theme} onChange={onThemeChange} lang={language} />
         </div>
       </div>
     </header>

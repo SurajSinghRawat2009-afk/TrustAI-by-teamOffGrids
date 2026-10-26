@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Sun, Moon, Shield, ChevronDown } from 'lucide-react';
-import type { Theme } from '@/lib/types';
+import type { LanguageCode, Theme } from '@/lib/types';
+import { t } from '@/lib/i18n';
 
-const THEMES: { id: Theme; label: string; Icon: typeof Sun }[] = [
-  { id: 'default', label: 'Light', Icon: Sun },
-  { id: 'dark', label: 'Dark', Icon: Moon },
-  { id: 'cyber', label: 'Cyber-Shield', Icon: Shield },
+const THEMES: { id: Theme; key: string; Icon: typeof Sun }[] = [
+  { id: 'default', key: 'light', Icon: Sun },
+  { id: 'dark', key: 'dark', Icon: Moon },
+  { id: 'cyber', key: 'cyberShield', Icon: Shield },
 ];
 
 export default function ThemeToggle({
   theme,
   onChange,
+  lang,
 }: {
   theme: Theme;
   onChange: (t: Theme) => void;
+  lang: LanguageCode;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -33,16 +36,16 @@ export default function ThemeToggle({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle theme"
+        aria-label={t(lang, 'toggleTheme')}
         className="btn-ghost flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium"
       >
         <Icon size={18} />
-        <span className="hidden sm:inline">{current.label}</span>
+        <span className="hidden sm:inline">{t(lang, current.key)}</span>
         <ChevronDown size={14} className="opacity-60" />
       </button>
       {open && (
         <div className="glass-card absolute right-0 top-full z-50 mt-2 w-52 overflow-hidden p-1.5">
-          {THEMES.map(({ id, label, Icon }) => (
+          {THEMES.map(({ id, key, Icon }) => (
             <button
               key={id}
               onClick={() => {
@@ -56,7 +59,7 @@ export default function ThemeToggle({
               }`}
             >
               <Icon size={16} />
-              {label}
+              {t(lang, key)}
             </button>
           ))}
         </div>

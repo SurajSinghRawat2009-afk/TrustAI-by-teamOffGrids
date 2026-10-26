@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Globe, ChevronDown } from 'lucide-react';
-import { LANGUAGES } from '@/lib/i18n';
+import { LANGUAGES, t } from '@/lib/i18n';
 import type { LanguageCode } from '@/lib/types';
 
 export default function LanguageSelector({
@@ -27,7 +27,7 @@ export default function LanguageSelector({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
-        aria-label="Select language"
+        aria-label={t(language, 'language')}
         className="btn-ghost flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium"
       >
         <Globe size={18} />

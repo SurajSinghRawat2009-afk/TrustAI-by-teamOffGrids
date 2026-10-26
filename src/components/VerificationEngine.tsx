@@ -51,7 +51,7 @@ function ProgressBar({ label, value }: { label: string; value: number }) {
   );
 }
 
-function TrustScoreRing({ score }: { score: number }) {
+function TrustScoreRing({ score, lang }: { score: number; lang: LanguageCode }) {
   const r = 46;
   const c = 2 * Math.PI * r;
   const off = c - (score / 100) * c;
@@ -75,7 +75,7 @@ function TrustScoreRing({ score }: { score: number }) {
       </svg>
       <div className="absolute text-center">
         <div className="text-3xl font-black text-app">{score}</div>
-        <div className="text-[10px] uppercase tracking-wider text-muted">Trust</div>
+        <div className="text-[10px] uppercase tracking-wider text-muted">{t(lang, 'trust')}</div>
       </div>
     </div>
   );
@@ -193,13 +193,13 @@ export default function VerificationEngine({
       {analyzing && (
         <div className="glass-card mt-6 flex flex-col items-center gap-4 p-10 text-center">
           <RobotSVG waving size={110} />
-          <p className="text-base font-semibold text-app">TrustAI is analyzing…</p>
+          <p className="text-base font-semibold text-app">{t(lang, 'analyzing')}</p>
           <BouncingDots />
         </div>
       )}
       {error && !analyzing && (
         <div className="mt-6 rounded-xl border border-[var(--danger)] bg-[var(--danger)]/10 p-4 text-sm text-[var(--danger)]">
-          <strong>Error:</strong> {error}
+          <strong>{t(lang, 'error')}:</strong> {error}
         </div>
       )}
       {result && !analyzing && (
@@ -211,7 +211,7 @@ export default function VerificationEngine({
                 <p className="mt-3 max-w-xl text-sm text-app">{result.summary}</p>
                 <p className="mt-1 text-xs text-muted">{VERDICT_DESC[result.verdict]}</p>
               </div>
-              <TrustScoreRing score={result.trustScore} />
+              <TrustScoreRing score={result.trustScore} lang={lang} />
             </div>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <ProgressBar label={t(lang, 'sourceReliability')} value={result.sourceReliability} />
@@ -247,7 +247,7 @@ export default function VerificationEngine({
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
                 <AlertTriangle size={16} /> {t(lang, 'senderInfo')}
               </h3>
-              <p className="whitespace-pre-wrap text-sm text-app">{result.senderInfo || 'Not available'}</p>
+              <p className="whitespace-pre-wrap text-sm text-app">{result.senderInfo || t(lang, 'noSources')}</p>
             </div>
             <div className="glass-card p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
@@ -326,7 +326,7 @@ export default function VerificationEngine({
               <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 4 }}>{t(lang, 'trustScore')}</div>
               <div style={{ fontSize: 32, fontWeight: 900, marginBottom: 12 }}>{result.trustScore}%</div>
               <div style={{ fontSize: 13, lineHeight: 1.45, opacity: 0.95 }}>{result.summary}</div>
-              <div style={{ marginTop: 16, fontSize: 10, opacity: 0.7 }}>© 2026 TrustAI · Team OffGrids</div>
+              <div style={{ marginTop: 16, fontSize: 10, opacity: 0.7 }}>© 2026 TrustAI · {t(lang, 'footer')}</div>
             </div>
           </div>
         </div>
