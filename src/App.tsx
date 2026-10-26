@@ -6,6 +6,7 @@ import OnboardingModal from '@/components/OnboardingModal';
 import VerificationEngine from '@/components/VerificationEngine';
 import QuizEngine from '@/components/QuizEngine';
 import Chatbot from '@/components/Chatbot';
+import HelplinesPage from '@/components/HelplinesPage';
 import { RobotSVG } from '@/components/Robot';
 import type { AnalysisResult, ChatSession, Theme, UserProfile } from '@/lib/types';
 
@@ -310,6 +311,7 @@ function App() {
           <VerificationEngine user={user} onSaved={handleSaveAnalysis} onBack={() => setView('home')} />
         )}
         {view === 'quiz' && <QuizEngine onBack={() => setView('home')} />}
+        {view === 'helplines' && <HelplinesPage lang={'en'} />}
         {view === 'history' && renderHistory()}
         {view === 'chat-history' && renderChatHistory()}
         {view === 'about' && renderAbout()}

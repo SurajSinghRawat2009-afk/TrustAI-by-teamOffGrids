@@ -1,8 +1,8 @@
-import { X, Home, History, GraduationCap, Info, ShieldCheck, MessageSquare } from 'lucide-react';
+import { X, Home, History, GraduationCap, Info, ShieldCheck, MessageSquare, Phone } from 'lucide-react';
 import type { LanguageCode } from '@/lib/types';
 import { t } from '@/lib/i18n';
 
-export type View = 'home' | 'verify' | 'quiz' | 'history' | 'about' | 'chat-history';
+export type View = 'home' | 'verify' | 'quiz' | 'history' | 'about' | 'chat-history' | 'helplines';
 
 export default function Sidebar({
   open,
@@ -21,6 +21,7 @@ export default function Sidebar({
     { id: 'history', label: t(lang, 'navAnalysisHistory'), Icon: History },
     { id: 'chat-history', label: t(lang, 'navChatHistory'), Icon: MessageSquare },
     { id: 'quiz', label: t(lang, 'navLearning'), Icon: GraduationCap },
+    { id: 'helplines', label: t(lang, 'navHelplines'), Icon: Phone },
     { id: 'about', label: t(lang, 'navAbout'), Icon: Info },
   ];
   return (
