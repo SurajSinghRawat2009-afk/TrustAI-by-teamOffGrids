@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MessageCircle, X, Send, Loader2, ShieldCheck, Maximize2, Minimize2, Plus, Trash2, MessageSquare } from 'lucide-react';
 import type { ChatMessage, ChatSession, UserProfile, LanguageCode } from '@/lib/types';
+import { t } from '@/lib/i18n';
 
 const API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trustai-chat`;
 const KEY_SESSIONS = 'trustai_chat_sessions';
@@ -196,7 +197,7 @@ export default function Chatbot({
           className="btn-glow pulse-ring fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold shadow-2xl"
         >
           <MessageCircle size={20} />
-          <span className="hidden sm:inline">Chat with TrustAI</span>
+          <span className="hidden sm:inline">{t(lang, 'chatWithTrustAI')}</span>
         </button>
       )}
       {open && (
@@ -209,13 +210,13 @@ export default function Chatbot({
               </span>
               <div>
                 <p className="text-sm font-bold text-app">TrustAI</p>
-                <p className="text-[10px] text-muted">{activeSession?.title ?? 'No active session'}</p>
+                <p className="text-[10px] text-muted">{activeSession?.title ?? t(lang, 'chatNoActive')}</p>
               </div>
             </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setShowSessionList((s) => !s)}
-                aria-label="Session list"
+                aria-label={t(lang, 'chatSessionList')}
                 className="btn-ghost flex h-8 w-8 items-center justify-center rounded-lg"
               >
                 <MessageSquare size={16} />
@@ -238,7 +239,7 @@ export default function Chatbot({
               </button>
               <button
                 onClick={() => setExpanded((e) => !e)}
-                aria-label={expanded ? 'Collapse chat' : 'Expand chat'}
+                aria-label={expanded ? t(lang, 'chatCollapse') : t(lang, 'chatExpand')}
                 className="btn-ghost flex h-8 w-8 items-center justify-center rounded-lg"
               >
                 {expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
@@ -254,10 +255,10 @@ export default function Chatbot({
             {showSessionList && (
               <div className="flex w-56 shrink-0 flex-col border-r border-[var(--border-app)] bg-[var(--bg-surface)]">
                 <div className="flex items-center justify-between px-3 py-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wide text-muted">Sessions</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-muted">{t(lang, 'sessions')}</span>
                   <button
                     onClick={createSession}
-                    aria-label="New session"
+                    aria-label={t(lang, 'chatNewSession')}
                     className="btn-ghost flex h-7 w-7 items-center justify-center rounded-lg"
                   >
                     <Plus size={14} />
@@ -265,7 +266,7 @@ export default function Chatbot({
                 </div>
                 <div className="flex-1 space-y-1 overflow-y-auto px-2 pb-2">
                   {sessions.length === 0 && (
-                    <p className="px-2 py-4 text-center text-[11px] text-muted">No sessions yet.</p>
+                    <p className="px-2 py-4 text-center text-[11px] text-muted">{t(lang, 'noSessions')}</p>
                   )}
                   {sessions.map((s) => (
                     <div
@@ -300,9 +301,9 @@ export default function Chatbot({
             <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
               {messages.length === 0 && (
                 <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-                  <p className="text-sm text-muted">Start a new conversation.</p>
+                  <p className="text-sm text-muted">{t(lang, 'chatStart')}</p>
                   <button onClick={createSession} className="btn-primary rounded-xl px-4 py-2 text-xs font-semibold">
-                    New Chat
+                    {t(lang, 'newChat')}
                   </button>
                 </div>
               )}
@@ -362,7 +363,7 @@ export default function Chatbot({
               ))}
               {sending && (
                 <div className="flex items-center gap-2 text-xs text-muted">
-                  <Loader2 size={14} className="animate-spin" /> TrustAI is typing…
+                  <Loader2 size={14} className="animate-spin" /> {t(lang, 'chatTyping')}
                 </div>
               )}
             </div>
@@ -380,13 +381,13 @@ export default function Chatbot({
                     send();
                   }
                 }}
-                placeholder={user?.name ? `Ask anything, ${user.name}…` : 'Ask anything…'}
+                placeholder={user?.name ? `${t(lang, 'chatAsk')}, ${user.name}…` : `${t(lang, 'chatAsk')}…`}
                 className="flex-1 rounded-xl border border-[var(--border-app)] bg-[var(--bg-surface-solid)] px-3 py-2.5 text-sm text-app outline-none focus:border-[var(--primary)]"
               />
               <button
                 onClick={send}
                 disabled={sending || !input.trim() || !activeSession}
-                aria-label="Send"
+                aria-label={t(lang, 'chatSend')}
                 className="btn-primary grid h-10 w-10 place-items-center rounded-xl disabled:opacity-40"
               >
                 <Send size={16} />

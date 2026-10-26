@@ -67,6 +67,10 @@ Deno.serve(async (req: Request) => {
       });
     }
 
+    const body = await req.json().catch(() => ({}));
+    const language: string = String(body?.language ?? 'en').trim();
+    const languageNames: Record<string, string> = { en: 'English', hi: 'Hindi', es: 'Spanish', fr: 'French', zh: 'Mandarin Chinese', ja: 'Japanese', ar: 'Arabic', ur: 'Urdu', bn: 'Bengali', pt: 'Portuguese' };
+    const langName = languageNames[language] ?? 'English';
     const prompt = `Generate exactly 15 multiple-choice questions for a digital-literacy quiz for everyday internet users.
 Mix topics: WhatsApp/SMS scams, phishing emails, fake news, deepfakes, social media manipulation, password hygiene, URL safety, misinformation red flags, AI-generated content, online shopping scams.
 Each question presents a "message" (suspicious text/email/post) and asks what the biggest warning sign is.
@@ -85,7 +89,8 @@ Rules:
 - ids must be 1..15 in order.
 - Each question must have exactly 3 or 4 choices.
 - correctIndex must be a valid 0-based index.
-- Make them varied, realistic, and freshly worded. Avoid repetition.`;
+- Make them varied, realistic, and freshly worded. Avoid repetition.
+Strict language rule: You must analyze the task and generate every human-readable question, choice, explanation, and topic ONLY in ${langName}, regardless of the language used in this instruction. Keep the JSON keys and correctIndex numeric values unchanged.`;
 
     const text = await callGemini(prompt, apiKey);
     const raw = safeParseArray(text);

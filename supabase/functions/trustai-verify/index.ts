@@ -30,7 +30,7 @@ function normalizeVerdict(v: unknown): Verdict {
   return 'Unverified';
 }
 
-function buildPrompt(content: string): string {
+function buildPrompt(content: string, langName: string): string {
   return `You are TrustAI, an expert misinformation & scam analyst. Analyze the user-provided message or URL and return a strict JSON object.
 USER CONTENT:
 """
@@ -57,7 +57,8 @@ Rules:
 - For humor/parody => Satire.
 - If uncertain => Unverified, medium trust.
 - Provide 2-4 credible sources with real URLs (fact-checkers, official gov, or major outlets).
-- "tactics" must list concrete manipulation tactics observed.`;
+- "tactics" must list concrete manipulation tactics observed.
+Strict language rule: You must analyze the input and generate your entire response ONLY in ${langName}, regardless of the language the user typed in. Keep the JSON keys exactly as specified, but write every human-readable JSON value in ${langName}.`;
 }
 
 async function callGemini(prompt: string, apiKey: string): Promise<string> {
@@ -104,6 +105,9 @@ Deno.serve(async (req: Request) => {
 
     const body = await req.json().catch(() => ({}));
     const content: string = String(body?.content ?? '').trim();
+    const language: string = String(body?.language ?? 'en').trim();
+    const languageNames: Record<string, string> = { en: 'English', hi: 'Hindi', es: 'Spanish', fr: 'French', zh: 'Mandarin Chinese', ja: 'Japanese', ar: 'Arabic', ur: 'Urdu', bn: 'Bengali', pt: 'Portuguese' };
+    const langName = languageNames[language] ?? 'English';
     if (!content) {
       return new Response(JSON.stringify({ error: 'Content is required.' }), {
         status: 400,
@@ -117,7 +121,7 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    const prompt = buildPrompt(content);
+    const prompt = buildPrompt(content, langName);
     const text = await callGemini(prompt, apiKey);
     const parsed = safeParseJSON(text);
 
