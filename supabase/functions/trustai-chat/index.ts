@@ -57,6 +57,12 @@ Deno.serve(async (req: Request) => {
     const body = await req.json().catch(() => ({}));
     const message: string = String(body?.message ?? '').trim();
     const userName: string = String(body?.userName ?? 'friend').slice(0, 40);
+    const langCode: string = String(body?.language ?? 'en').trim();
+    const LANG_NAMES: Record<string, string> = {
+      en: 'English', hi: 'Hindi', es: 'Spanish', fr: 'French', zh: 'Mandarin Chinese',
+      ja: 'Japanese', ar: 'Arabic', ur: 'Urdu', bn: 'Bengali', pt: 'Portuguese',
+    };
+    const langName = LANG_NAMES[langCode] ?? 'English';
     const history: Msg[] = Array.isArray(body?.history)
       ? (body.history as unknown[])
           .filter((item): item is Msg => {
@@ -80,7 +86,8 @@ The user's name is "${userName}". Use their name naturally when helpful.
 Answer general questions across mathematics, physics, coding, planning, schedules, writing, research, and everyday topics with the same care and depth you would bring to digital-safety questions.
 When the user pastes a URL, phishing link, email, SMS, social post, or suspicious message, analyze the text and link structure directly, identify red flags, explain the risk, and give safe next steps. Do not claim to have opened or verified a link unless you actually have access to that information.
 Be accurate, transparent about uncertainty, and adapt the level of detail to the user's request. Do not force the conversation back to digital safety.
-Format your responses beautifully using Markdown. Use line breaks, bullet points, bold text, and 1-2 emojis. Never output a giant block of text.`;
+Format your responses beautifully using Markdown. Use line breaks, bullet points, bold text, and 1-2 emojis. Never output a giant block of text.
+You MUST provide your entire response in ${langName}.`;
 
     const convo = history.map((m) => `${m.role === 'user' ? 'User' : 'TrustAI'}: ${m.text}`).join('\n');
     const prompt = `${system}

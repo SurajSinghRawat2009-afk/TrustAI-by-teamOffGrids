@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { MessageCircle, X, Send, Loader2, ShieldCheck, Maximize2, Minimize2, Plus, Trash2, MessageSquare } from 'lucide-react';
-import type { ChatMessage, ChatSession, UserProfile } from '@/lib/types';
+import type { ChatMessage, ChatSession, UserProfile, LanguageCode } from '@/lib/types';
 
 const API_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/trustai-chat`;
 const KEY_SESSIONS = 'trustai_chat_sessions';
@@ -55,10 +55,12 @@ export default function Chatbot({
   user,
   open,
   onOpenChange,
+  lang,
 }: {
   user: UserProfile | null;
   open: boolean;
   onOpenChange: (o: boolean) => void;
+  lang: LanguageCode;
 }) {
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
@@ -141,6 +143,7 @@ export default function Chatbot({
           message: text,
           userName: user?.name ?? 'friend',
           history: activeSession.messages,
+          language: lang,
         }),
       });
       const data = await res.json();

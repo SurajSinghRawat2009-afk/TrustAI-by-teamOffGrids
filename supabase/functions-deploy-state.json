@@ -1,0 +1,17 @@
+{
+  "projectId": "72385565",
+  "functions": {
+    "trustai-chat": {
+      "hasChanged": false,
+      "hash": "f6396832d608f3d004e1823245c3b253a3f14d3925e90bd49b180d4f40a25395"
+    },
+    "trustai-quiz": {
+      "hasChanged": false,
+      "hash": "c84fd595042b965af1cc5a1f416ebbca167b8107b6b88f45cb39f1a7a281c6ad"
+    },
+    "trustai-verify": {
+      "hasChanged": false,
+      "hash": "c5e0b2b3c772b0d37d195c19269111ac1db9c8022aeeb6656720fa034a08aaba"
+    }
+  }
+}
