@@ -33,8 +33,9 @@ npm start
 
 ## Notes
 
-- **Accessibility & Security Features**
-***​🌐 Multilingual Support***: TrustAI is built for a global audience with a dropdown menu for real-time translation into 10 distinct languages. Users can seamlessly switch between:  
+ **Accessibility & Security Features**
+
+- ***​🌐 Multilingual Support***: TrustAI is built for a global audience with a dropdown menu for real-time translation into 10 distinct languages. Users can seamlessly switch between:  
 ​🇬🇧 English  
 ​🇮🇳 हिंदी (Hindi)  
 ​🇪🇸 Español (Spanish)  
@@ -47,7 +48,7 @@ npm start
 ​🇵🇹 Português (Portuguese)
 
 
-***​🎨 Customizable Themes***: Personalize your interface with a dynamic color palette selector tailored to your visual preference. Available accent colors include:  
+- ***​🎨 Customizable Themes***: Personalize your interface with a dynamic color palette selector tailored to your visual preference. Available accent colors include:  
 ​🟣 Purple  
 ​🔵 Cyan  
 ​🔴 Red  
@@ -55,7 +56,7 @@ npm start
 ​🟠 Orange  
 
 
-***​📞 Cybersecurity Dial***: Instant access to a dedicated cybersecurity helpline directly from the interface, ensuring users have immediate professional support when encountering severe digital threats or scams.
+- ***​📞 Cybersecurity Dial***: Instant access to a dedicated cybersecurity helpline directly from the interface, ensuring users have immediate professional support when encountering severe digital threats or scams.
 
 
-This is a hackathon demo. The claim analysis uses keyword-based heuristics and mock data — it is not a real fact-checking engine. Always verify claims with official sources.
+**This is a hackathon demo. The claim analysis uses keyword-based heuristics and mock data — it is not a real fact-checking engine. Always verify claims with official sources.**
