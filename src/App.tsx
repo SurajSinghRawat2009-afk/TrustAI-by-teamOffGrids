@@ -354,9 +354,9 @@ function App() {
       <main className="min-h-[calc(100vh-160px)]">
         {view === 'home' && renderHome()}
         {view === 'verify' && (
-          <VerificationEngine user={user} onSaved={handleSaveAnalysis} onBack={() => setView('home')} />
+          <VerificationEngine user={user} lang={language} onSaved={handleSaveAnalysis} onBack={() => setView('home')} />
         )}
-        {view === 'quiz' && <QuizEngine onBack={() => setView('home')} />}
+        {view === 'quiz' && <QuizEngine lang={language} onBack={() => setView('home')} />}
         {view === 'helplines' && <HelplinesPage lang={language} />}
         {view === 'history' && renderHistory()}
         {view === 'chat-history' && renderChatHistory()}

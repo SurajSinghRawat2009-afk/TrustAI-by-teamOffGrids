@@ -2,7 +2,8 @@ import { useRef, useState } from 'react';
 import { ShieldCheck, ShieldAlert, Share2, ArrowLeft, AlertTriangle, FileSearch, Link2, Sparkles } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { RobotSVG, BouncingDots } from './Robot';
-import type { AnalysisResult, UserProfile, Verdict } from '@/lib/types';
+import type { AnalysisResult, LanguageCode, UserProfile, Verdict } from '@/lib/types';
+import { t } from '@/lib/i18n';
 
 const VERDICT_CLASS: Record<Verdict, string> = {
   'Fraud/Scam': 'verdict-fraud',
@@ -87,10 +88,12 @@ export default function VerificationEngine({
   user,
   onSaved,
   onBack,
+  lang,
 }: {
   user: UserProfile | null;
   onSaved: (r: AnalysisResult) => void;
   onBack: () => void;
+  lang: LanguageCode;
 }) {
   const [input, setInput] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
@@ -112,7 +115,7 @@ export default function VerificationEngine({
           Authorization: `Bearer ${API_KEY}`,
           Apikey: API_KEY,
         },
-        body: JSON.stringify({ content: trimmed }),
+        body: JSON.stringify({ content: trimmed, language: lang }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Analysis failed.');
@@ -141,29 +144,29 @@ export default function VerificationEngine({
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
       <button onClick={onBack} className="mb-6 flex items-center gap-1 text-sm text-muted hover:text-[var(--primary)]">
-        <ArrowLeft size={16} /> Back
+        <ArrowLeft size={16} /> {t(lang, 'back')}
       </button>
       <div className="mb-6">
-        <p className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">Verification Engine</p>
-        <h1 className="mt-1 text-3xl font-black text-app">Analyze content &amp; links</h1>
+        <p className="text-xs font-bold uppercase tracking-wider text-[var(--primary)]">{t(lang, 'analyzeEngine')}</p>
+        <h1 className="mt-1 text-3xl font-black text-app">{t(lang, 'analyzeTitle')}</h1>
         <p className="mt-1 text-sm text-muted">
-          Paste a suspicious message, email, or URL. TrustAI will cross-check it and explain what it finds.
+          {t(lang, 'analyzeSub')}
         </p>
       </div>
       <div className="glass-card p-5">
         <label htmlFor="claim" className="mb-2 flex items-center gap-2 text-sm font-medium text-app">
-          <Link2 size={16} /> Message or URL
+          <Link2 size={16} /> {t(lang, 'messageUrl')}
         </label>
         <textarea
           id="claim"
           rows={5}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste a WhatsApp forward, suspicious email, or link here…"
+          placeholder={t(lang, 'pastePlaceholder')}
           className="w-full resize-none rounded-xl border border-app bg-[var(--bg-surface)] px-4 py-3 text-sm text-app outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-soft)]"
         />
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-muted">{input.length} chars</p>
+          <p className="text-xs text-muted">{input.length} {t(lang, 'chars')}</p>
           <div className="flex gap-2">
             {result && (
               <button
@@ -174,7 +177,7 @@ export default function VerificationEngine({
                 }}
                 className="btn-ghost rounded-xl px-4 py-2 text-sm"
               >
-                Clear
+                {t(lang, 'clear')}
               </button>
             )}
             <button
@@ -182,7 +185,7 @@ export default function VerificationEngine({
               disabled={!input.trim() || analyzing}
               className="btn-primary rounded-xl px-5 py-2.5 text-sm font-semibold"
             >
-              {analyzing ? 'Analyzing…' : 'Analyze'}
+              {analyzing ? t(lang, 'analyzing') : t(lang, 'analyze')}
             </button>
           </div>
         </div>
@@ -211,19 +214,19 @@ export default function VerificationEngine({
               <TrustScoreRing score={result.trustScore} />
             </div>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <ProgressBar label="Source Reliability" value={result.sourceReliability} />
-              <ProgressBar label="Content Consistency" value={result.contentConsistency} />
+              <ProgressBar label={t(lang, 'sourceReliability')} value={result.sourceReliability} />
+              <ProgressBar label={t(lang, 'contentConsistency')} value={result.contentConsistency} />
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <span className="rounded-full border border-app px-3 py-1 text-xs font-semibold">
-                Risk: <span className="text-[var(--danger)]">{result.riskLevel}</span>
+                {t(lang, 'risk')}: <span className="text-[var(--danger)]">{result.riskLevel}</span>
               </span>
-              <span className="text-xs text-muted">Analyzed {new Date(result.analyzedAt).toLocaleString()}</span>
+              <span className="text-xs text-muted">{t(lang, 'analyzed')} {new Date(result.analyzedAt).toLocaleString()}</span>
             </div>
           </div>
           <div className="glass-card p-4">
             <p className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted">
-              <Sparkles size={14} /> Verdict legend
+              <Sparkles size={14} /> {t(lang, 'verdictLegend')}
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
               {(Object.keys(VERDICT_CLASS) as Verdict[]).map((v) => (
@@ -236,19 +239,19 @@ export default function VerificationEngine({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="glass-card p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
-                <FileSearch size={16} /> Original Claim
+                <FileSearch size={16} /> {t(lang, 'originalClaim')}
               </h3>
               <p className="whitespace-pre-wrap text-sm text-app">{result.originalClaim}</p>
             </div>
             <div className="glass-card p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
-                <AlertTriangle size={16} /> Sender Info
+                <AlertTriangle size={16} /> {t(lang, 'senderInfo')}
               </h3>
               <p className="whitespace-pre-wrap text-sm text-app">{result.senderInfo || 'Not available'}</p>
             </div>
             <div className="glass-card p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
-                <ShieldAlert size={16} /> Tactics Used
+                <ShieldAlert size={16} /> {t(lang, 'tacticsUsed')}
               </h3>
               {result.tactics.length ? (
                 <ul className="space-y-1.5">
@@ -260,12 +263,12 @@ export default function VerificationEngine({
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted">None detected.</p>
+                <p className="text-sm text-muted">{t(lang, 'noneDetected')}</p>
               )}
             </div>
             <div className="glass-card p-5">
               <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
-                <Link2 size={16} /> Source References
+                <Link2 size={16} /> {t(lang, 'sourceReferences')}
               </h3>
               {result.sources.length ? (
                 <ul className="space-y-2">
@@ -284,19 +287,19 @@ export default function VerificationEngine({
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted">No sources returned.</p>
+                <p className="text-sm text-muted">{t(lang, 'noSources')}</p>
               )}
             </div>
           </div>
           <div className="glass-card p-5">
             <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-app">
-              <ShieldCheck size={16} /> Detailed AI Explanation
+              <ShieldCheck size={16} /> {t(lang, 'detailedExplanation')}
             </h3>
             <p className="whitespace-pre-wrap text-sm leading-relaxed text-app">{result.detailedExplanation}</p>
           </div>
           <div className="flex justify-end">
             <button onClick={downloadCard} className="btn-glow flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold">
-              <Share2 size={16} /> Download Summary Card
+              <Share2 size={16} /> {t(lang, 'downloadSummary')}
             </button>
           </div>
           <div style={{ position: 'fixed', left: '-99999px', top: 0 }}>
@@ -314,13 +317,13 @@ export default function VerificationEngine({
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
                 <div style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(255,255,255,0.2)', display: 'grid', placeItems: 'center', fontWeight: 800 }}>T</div>
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: 16 }}>TrustAI Verdict</div>
-                  <div style={{ fontSize: 11, opacity: 0.85 }}>{user?.name ? `For ${user.name}` : 'Analysis Report'}</div>
+                  <div style={{ fontWeight: 800, fontSize: 16 }}>{t(lang, 'trustVerdict')}</div>
+                  <div style={{ fontSize: 11, opacity: 0.85 }}>{user?.name ? `${t(lang, 'forUser')} ${user.name}` : t(lang, 'analysisReport')}</div>
                 </div>
               </div>
-              <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 4 }}>Verdict</div>
+              <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 4 }}>{t(lang, 'verdict')}</div>
               <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 10 }}>{result.verdict}</div>
-              <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 4 }}>Trust Score</div>
+              <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 4 }}>{t(lang, 'trustScore')}</div>
               <div style={{ fontSize: 32, fontWeight: 900, marginBottom: 12 }}>{result.trustScore}%</div>
               <div style={{ fontSize: 13, lineHeight: 1.45, opacity: 0.95 }}>{result.summary}</div>
               <div style={{ marginTop: 16, fontSize: 10, opacity: 0.7 }}>© 2026 TrustAI · Team OffGrids</div>
